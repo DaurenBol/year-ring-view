@@ -2,7 +2,7 @@
 <html lang="ru" data-theme="dark">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>YearRingView</title>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500;600&family=IBM+Plex+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
 <style>
@@ -657,7 +657,7 @@ function draw(){
       const dayNum=periodDates[i].getDate();
       const fs=Math.max(7, dotR*0.95);
       ctx.font=`600 ${fs}px 'IBM Plex Sans'`;
-      ctx.fillStyle=past?(dark?'rgba(180,185,210,0.6)':'rgba(80,90,120,0.6)'):'#fff';
+      ctx.fillStyle=past?(dark?'rgba(150,155,180,0.7)':'rgba(60,70,100,0.7)'):(dark?'rgba(10,12,16,0.9)':'rgba(10,12,16,0.9)');
       ctx.textAlign='center'; ctx.textBaseline='middle';
       ctx.fillText(dayNum, dx, dy+0.5);
     });
@@ -683,7 +683,7 @@ function draw(){
     const dayNumP=evD.getDate();
     const fsP=Math.max(7, dotRp*0.95);
     ctx.font=`600 ${fsP}px 'IBM Plex Sans'`;
-    ctx.fillStyle=past?(dark?'rgba(180,185,210,0.6)':'rgba(80,90,120,0.6)'):'#fff';
+    ctx.fillStyle=past?(dark?'rgba(150,155,180,0.7)':'rgba(60,70,100,0.7)'):(dark?'rgba(10,12,16,0.9)':'rgba(10,12,16,0.9)');
     ctx.textAlign='center'; ctx.textBaseline='middle';
     ctx.fillText(dayNumP, ex, ey+0.5);
   });
