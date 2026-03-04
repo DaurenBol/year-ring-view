@@ -646,11 +646,20 @@ function draw(){
         ctx.lineWidth=1; ctx.strokeStyle=hex+'aa'; ctx.stroke();
       }
     }
-    [aS,aE].forEach(a=>{
+    const periodDates=[new Date(ev.date+'T00:00:00'), new Date(ev.dateEnd+'T00:00:00')];
+    [aS,aE].forEach((a,i)=>{
       const dx=cx+r*Math.cos(a), dy=cy+r*Math.sin(a);
-      ctx.beginPath(); ctx.arc(dx,dy,EVENT_W*0.58,0,Math.PI*2);
+      const dotR=EVENT_W*0.58;
+      ctx.beginPath(); ctx.arc(dx,dy,dotR,0,Math.PI*2);
       ctx.fillStyle=past?(dark?'#30333e':'#c8ccd8'):hex; ctx.fill();
       ctx.strokeStyle=dark?'#0c0d0f':'#f4f5f7'; ctx.lineWidth=1.2; ctx.stroke();
+      // Day number
+      const dayNum=periodDates[i].getDate();
+      const fs=Math.max(7, dotR*0.95);
+      ctx.font=`600 ${fs}px 'IBM Plex Sans'`;
+      ctx.fillStyle=past?(dark?'rgba(180,185,210,0.6)':'rgba(80,90,120,0.6)'):'#fff';
+      ctx.textAlign='center'; ctx.textBaseline='middle';
+      ctx.fillText(dayNum, dx, dy+0.5);
     });
   });
 
@@ -666,9 +675,17 @@ function draw(){
       ctx.lineTo(ex,ey);
       ctx.strokeStyle=hex+'25'; ctx.lineWidth=1; ctx.stroke();
     }
-    ctx.beginPath(); ctx.arc(ex,ey,EVENT_W*0.65,0,Math.PI*2);
+    const dotRp=EVENT_W*0.65;
+    ctx.beginPath(); ctx.arc(ex,ey,dotRp,0,Math.PI*2);
     ctx.fillStyle=past?(dark?'#2e3038':'#c8ccd8'):hex; ctx.fill();
     ctx.strokeStyle=dark?'#0c0d0f':'#f4f5f7'; ctx.lineWidth=1.2; ctx.stroke();
+    // Day number
+    const dayNumP=evD.getDate();
+    const fsP=Math.max(7, dotRp*0.95);
+    ctx.font=`600 ${fsP}px 'IBM Plex Sans'`;
+    ctx.fillStyle=past?(dark?'rgba(180,185,210,0.6)':'rgba(80,90,120,0.6)'):'#fff';
+    ctx.textAlign='center'; ctx.textBaseline='middle';
+    ctx.fillText(dayNumP, ex, ey+0.5);
   });
 
   // ── 6. Today segment ──
