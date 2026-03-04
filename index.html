@@ -98,9 +98,9 @@
   .brand-author {
     font-family: 'IBM Plex Mono', monospace;
     font-size: 0.56rem;
-    color: var(--muted);
+    color: var(--text);
     letter-spacing: 0.14em;
-    opacity: 0.5;
+    opacity: 0.55;
     margin-top: 4px;
     text-align: center;
   }
@@ -288,6 +288,7 @@
   <div class="brand">
     <div class="brand-title">Year<span class="ring">Ring</span><span class="view">View</span></div>
     <div class="brand-author">created by Dauren.Bol</div>
+    <div class="brand-sub">Весь год одним взглядом. Только то что важно — без лишнего шума.</div>
   </div>
   <div class="top-bar-controls">
     <div class="theme-wrap">
@@ -718,7 +719,8 @@ function renderEvents(){
         <div class="event-dates">${fmtDate(ev.date)}${isPer?'<br>'+fmtDate(ev.dateEnd):''}</div>
         <div class="event-name" style="opacity:${past?0.38:1};color:${past?'var(--muted)':hex+'dd'}">${ev.name}</div>
         ${isPer?`<span class="ev-badge" style="background:${past?'var(--surface2)':hex+'1a'};color:${past?'var(--muted)':hex}">${daysStr}</span>`:''}
-        <button class="event-del" onclick="removeEvent('${ev.id}')">✕</button>`;
+        <button class="event-edit" onclick="editEvent('${ev.id}')" title="Редактировать">✎</button>
+        <button class="event-del" onclick="removeEvent('${ev.id}')" title="Удалить">✕</button>`;
       grp.appendChild(item);
     });
     c.appendChild(grp);
