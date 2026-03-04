@@ -769,7 +769,7 @@ async function authSignUp(){
 }
 
 function authGoogle(){
-  window.location.href=SUPA_URL+'/auth/v1/authorize?provider=google&redirect_to='+encodeURIComponent(window.location.href);
+  window.location.href=SUPA_URL+'/auth/v1/authorize?provider=google&redirect_to='+encodeURIComponent('https://zingy-faloodeh-678555.netlify.app/');
 }
 
 async function onSignIn(session){
