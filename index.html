@@ -279,6 +279,32 @@
   }
   .event-edit:hover { opacity: 1; color: var(--accent); }
   .empty-msg { color: var(--muted); font-size: 0.73rem; }
+
+  /* ── INLINE EDIT ── */
+  .event-item.editing { flex-wrap: wrap; gap: 6px; padding: 10px 0; }
+  .edit-field {
+    background: var(--surface2);
+    border: 1px solid var(--accent);
+    border-radius: 5px;
+    color: var(--text);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.72rem;
+    padding: 5px 8px;
+    outline: none;
+  }
+  .edit-name { flex: 1; min-width: 120px; }
+  .edit-date { width: 120px; }
+  .edit-save {
+    background: var(--accent); color: #fff;
+    border: none; border-radius: 5px;
+    font-size: 0.72rem; padding: 5px 10px;
+    cursor: pointer; font-family: 'IBM Plex Sans', sans-serif;
+  }
+  .edit-cancel {
+    background: none; border: 1px solid var(--border2);
+    border-radius: 5px; color: var(--muted);
+    font-size: 0.72rem; padding: 5px 8px; cursor: pointer;
+  }
 </style>
 </head>
 <body>
@@ -713,6 +739,7 @@ function renderEvents(){
       if(isPer){ const diff=Math.round((new Date(ev.dateEnd+'T00:00:00')-evD)/86400000)+1; daysStr=`${diff} дн.`; }
       const item=document.createElement('div');
       item.className='event-item';
+      item.dataset.id = ev.id;
       const pastBar=getComputedStyle(document.documentElement).getPropertyValue('--muted').trim();
       item.innerHTML=`
         <div class="ev-bar ${isPer?'period':'point'}" style="background:${past?'var(--border2)':hex}"></div>
@@ -880,23 +907,38 @@ async function removeEvent(id){
 function editEvent(id){
   const ev = events.find(e=>e.id===id);
   if(!ev) return;
-  // Fill form with event data
-  document.getElementById('evName').value = ev.name;
-  document.getElementById('evDate').value = ev.date;
-  const hasPer = !!ev.dateEnd;
-  document.getElementById('periodToggle').checked = hasPer;
-  if(hasPer){
-    document.getElementById('evDateEnd').value = ev.dateEnd;
-    document.getElementById('endDateWrap').classList.add('visible');
-  }
-  // Set color
-  selColor = ev.color;
-  document.querySelectorAll('.swatch').forEach(x=>x.classList.remove('active'));
-  document.querySelectorAll('.swatch').forEach(x=>{ if(x.dataset&&x.title===COLORS.find(c=>c.id===ev.color)?.label) x.classList.add('active'); });
-  // Remove old event, scroll to form
-  removeEvent(id);
-  document.getElementById('evName').focus();
-  document.getElementById('evName').scrollIntoView({behavior:'smooth', block:'center'});
+  const item = document.querySelector(`[data-id="${id}"]`);
+  if(!item) return;
+  const hex = chex(ev.color);
+  const isPer = !!ev.dateEnd;
+  item.classList.add('editing');
+  item.innerHTML = `
+    <div class="ev-bar ${isPer?'period':'point'}" style="background:${hex}"></div>
+    <input class="edit-field edit-name" id="ei-name-${id}" value="${ev.name}" placeholder="Название">
+    <input class="edit-field edit-date" id="ei-date-${id}" type="date" value="${ev.date}">
+    ${isPer ? `<input class="edit-field edit-date" id="ei-end-${id}" type="date" value="${ev.dateEnd||''}">` : ''}
+    <button class="edit-save" onclick="saveEdit('${id}')">✓</button>
+    <button class="edit-cancel" onclick="renderEvents()">✕</button>
+  `;
+  document.getElementById(`ei-name-${id}`).focus();
+}
+
+async function saveEdit(id){
+  const ev = events.find(e=>e.id===id);
+  if(!ev) return;
+  const name = document.getElementById(`ei-name-${id}`)?.value.trim();
+  const date = document.getElementById(`ei-date-${id}`)?.value;
+  const dateEnd = document.getElementById(`ei-end-${id}`)?.value || null;
+  if(!name||!date) return;
+  try{
+    await supa('/rest/v1/events?id=eq.'+id,{
+      method:'PATCH', prefer:'return=representation',
+      body: JSON.stringify({title:name, date, date_end:dateEnd})
+    });
+    const idx = events.findIndex(e=>e.id===id);
+    events[idx] = {...ev, name, date, dateEnd};
+    draw(); renderEvents();
+  }catch(e){ console.error('Edit error',e); }
 }
 
 // ── INIT ──────────────────────────────────────────────────────────────────────
