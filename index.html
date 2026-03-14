@@ -751,10 +751,10 @@ function draw(){
   COLORS.forEach((c,i)=>{
     const ly = legendStartY + i*legendSpacing;
     // Edit pencil — left of dot
-    ctx.font=`400 ${SIZE*0.026}px 'IBM Plex Mono'`;
-    ctx.fillStyle=dark?'rgba(200,205,228,0.30)':'rgba(40,50,90,0.30)';
+    ctx.font=`400 ${SIZE*0.034}px 'IBM Plex Mono'`;
+    ctx.fillStyle=dark?'rgba(200,205,228,0.45)':'rgba(40,50,90,0.45)';
     ctx.textAlign='center'; ctx.textBaseline='middle';
-    ctx.fillText('✎', cx-SIZE*0.04-dotR-SIZE*0.030, ly);
+    ctx.fillText('✎', cx-SIZE*0.04-dotR-SIZE*0.038, ly);
     ctx.beginPath(); ctx.arc(cx-SIZE*0.04, ly, dotR, 0, Math.PI*2);
     ctx.fillStyle = c.hex; ctx.fill();
     ctx.strokeStyle=dark?'#0c0d0f':'#f4f5f7'; ctx.lineWidth=1; ctx.stroke();
@@ -764,10 +764,28 @@ function draw(){
     ctx.fillText('— '+c.label, cx-SIZE*0.04+dotR+SIZE*0.012, ly);
   });
 
-  // Store legend positions for click detection
-  window._legendHitAreas = COLORS.map((c,i)=>{
-    const ly = legendStartY + i*legendSpacing;
-    return { id: c.id, x1: cx-SIZE*0.12, x2: cx-SIZE*0.01, y1: ly-SIZE*0.030, y2: ly+SIZE*0.030 };
+  // Store legend positions for HTML overlay (in canvas px — converted to CSS px at render time)
+  const canvasEl = document.getElementById('ring');
+  const dpr = window.devicePixelRatio || 1;
+  const cssScale = canvasEl.getBoundingClientRect().width / canvasEl.width;
+  const canvasRect = canvasEl.getBoundingClientRect();
+
+  // Remove old overlay buttons
+  document.querySelectorAll('.legend-edit-btn').forEach(x=>x.remove());
+
+  COLORS.forEach((c2,i)=>{
+    const ly2 = legendStartY + i*legendSpacing;
+    const penX = cx - SIZE*0.04 - dotR - SIZE*0.038;
+    // Convert canvas coords to page coords
+    const pageX = canvasRect.left + penX * cssScale;
+    const pageY = canvasRect.top + ly2 * cssScale;
+    const btn = document.createElement('button');
+    btn.className = 'legend-edit-btn';
+    btn.textContent = '✎';
+    btn.dataset.colorId = c2.id;
+    btn.style.cssText = `position:fixed;left:${pageX}px;top:${pageY}px;transform:translate(-50%,-50%);background:none;border:none;cursor:pointer;font-size:${Math.max(14, SIZE*0.034*cssScale)}px;color:${dark?'rgba(200,205,228,0.6)':'rgba(40,50,90,0.6)'};padding:6px;z-index:50;`;
+    btn.addEventListener('click', ()=> openLegendEdit(c2.id, pageX, pageY));
+    document.body.appendChild(btn);
   });
 }
 
@@ -1020,6 +1038,8 @@ document.getElementById('ring').addEventListener('click', function(e){
   openLegendEdit(hit.id, e.clientX, e.clientY);
 });
 
+
+
 function openLegendEdit(colorId, cx, cy){
   document.querySelectorAll('.legend-popup').forEach(x=>x.remove());
   const c = COLORS.find(x=>x.id===colorId);
@@ -1062,7 +1082,7 @@ function saveLegendLabel(colorId){
     COLORS.forEach(c=>{ if(saved[c.id]) c.label=saved[c.id]; });
   }catch(e){}
 })();
-window.addEventListener('resize',()=>{ initSize(); draw(); });
+window.addEventListener('resize',()=>{ initSize(); draw(); document.querySelectorAll('.legend-edit-btn').forEach(x=>x.remove()); });
 
 // Auth init
 (async function initAuth(){
