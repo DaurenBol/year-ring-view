@@ -89,7 +89,7 @@
   .brand-title .ring  { color: var(--accent); }
   .brand-title .view  { color: #d4884a; }
   .brand-sub {
-    font-size: 0.62rem;
+    font-size: 0.81rem;
     color: var(--muted);
     margin-top: 4px;
     line-height: 1.5;
@@ -97,7 +97,7 @@
   }
   .brand-author {
     font-family: 'IBM Plex Mono', monospace;
-    font-size: 0.56rem;
+    font-size: 0.95rem;
     color: var(--text);
     letter-spacing: 0.14em;
     opacity: 0.55;
@@ -161,7 +161,7 @@
   .date-label .year    { font-weight: 300; opacity: 0.38; }
   .date-sub {
     font-family: 'IBM Plex Mono', monospace;
-    font-size: 0.62rem; color: var(--muted);
+    font-size: 0.81rem; color: var(--muted);
     letter-spacing: 0.14em; text-transform: uppercase; margin-top: 6px;
   }
 
@@ -171,7 +171,7 @@
 
   /* ── SECTION LABEL ── */
   .section-label {
-    font-size: 0.57rem; letter-spacing: 0.2em;
+    font-size: 0.74rem; letter-spacing: 0.2em;
     text-transform: uppercase; color: var(--muted); margin-bottom: 12px;
   }
 
@@ -191,7 +191,7 @@
     border-radius: 6px;
     color: var(--text);
     font-family: 'IBM Plex Mono', monospace;
-    font-size: 0.77rem;
+    font-size: 1.00rem;
     padding: 9px 11px;
     outline: none;
     transition: border-color 0.15s;
@@ -206,7 +206,7 @@
 
   .period-row { display: flex; align-items: center; gap: 10px; }
   .toggle-label-text {
-    font-size: 0.68rem; color: var(--muted); cursor: pointer;
+    font-size: 0.88rem; color: var(--muted); cursor: pointer;
     user-select: none; display: flex; align-items: center; gap: 8px;
   }
   /* reuse .toggle-switch, .toggle-track, .toggle-thumb from above */
@@ -214,7 +214,7 @@
     display: none; align-items: center; gap: 8px; flex: 1;
   }
   .end-date-wrap.visible { display: flex; }
-  .end-sep { font-size: 0.62rem; color: var(--muted); white-space: nowrap; }
+  .end-sep { font-size: 0.81rem; color: var(--muted); white-space: nowrap; }
 
   .swatches { display: flex; gap: 7px; align-items: center; flex: 1; }
   .swatch {
@@ -231,7 +231,7 @@
     background: var(--accent); color: #fff;
     border: none; border-radius: 6px;
     font-family: 'IBM Plex Sans', sans-serif;
-    font-size: 0.73rem; font-weight: 600;
+    font-size: 0.95rem; font-weight: 600;
     padding: 9px 18px; cursor: pointer;
     white-space: nowrap; letter-spacing: 0.04em;
     transition: opacity 0.15s; flex-shrink: 0; margin-left: auto;
@@ -243,7 +243,7 @@
   .events-months { display: flex; flex-direction: column; gap: 20px; }
   .month-name {
     font-family: 'IBM Plex Mono', monospace;
-    font-size: 0.57rem; letter-spacing: 0.2em;
+    font-size: 0.74rem; letter-spacing: 0.2em;
     text-transform: uppercase; color: var(--muted);
     border-bottom: 1px solid var(--border);
     padding-bottom: 6px; margin-bottom: 6px;
@@ -252,33 +252,68 @@
     display: flex; align-items: center; gap: 10px;
     padding: 7px 0;
     border-bottom: 1px solid var(--divider-line);
-    font-size: 0.76rem;
+    font-size: 0.99rem;
   }
   .ev-bar { width: 3px; border-radius: 2px; flex-shrink: 0; }
   .ev-bar.point  { height: 16px; }
   .ev-bar.period { height: 28px; }
   .event-dates {
     font-family: 'IBM Plex Mono', monospace;
-    color: var(--muted); font-size: 0.64rem; min-width: 80px; line-height: 1.6;
+    color: var(--muted); font-size: 0.83rem; min-width: 80px; line-height: 1.6;
   }
   .event-name { flex: 1; }
   .ev-badge {
-    font-size: 0.56rem; letter-spacing: 0.06em; text-transform: uppercase;
+    font-size: 0.95rem; letter-spacing: 0.06em; text-transform: uppercase;
     padding: 2px 6px; border-radius: 3px; opacity: 0.8; flex-shrink: 0;
   }
   .event-del {
     background: none; border: none; cursor: pointer;
-    color: var(--muted); font-size: 0.72rem;
+    color: var(--muted); font-size: 0.94rem;
     opacity: 0.5; transition: opacity 0.15s; padding: 2px 4px;
   }
   .event-del:hover { opacity: 1; color: #d46060; }
   .event-edit {
     background: none; border: none; cursor: pointer;
-    color: var(--muted); font-size: 0.72rem;
+    color: var(--muted); font-size: 0.94rem;
     opacity: 0.5; transition: opacity 0.15s; padding: 2px 4px;
   }
   .event-edit:hover { opacity: 1; color: var(--accent); }
-  .empty-msg { color: var(--muted); font-size: 0.73rem; }
+  .empty-msg { color: var(--muted); font-size: 0.95rem; }
+
+  /* ── LEGEND EDIT POPUP ── */
+  .legend-popup {
+    position: fixed;
+    background: var(--surface);
+    border: 1px solid var(--border2);
+    border-radius: 10px;
+    padding: 12px 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    z-index: 200;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.4);
+  }
+  .legend-popup input {
+    background: var(--surface2);
+    border: 1px solid var(--accent);
+    border-radius: 6px;
+    color: var(--text);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.88rem;
+    padding: 6px 10px;
+    outline: none;
+    width: 140px;
+  }
+  .legend-popup button {
+    background: var(--accent); color: #fff;
+    border: none; border-radius: 6px;
+    font-size: 0.85rem; padding: 6px 10px;
+    cursor: pointer;
+  }
+  .legend-popup .lp-cancel {
+    background: none; border: 1px solid var(--border2);
+    color: var(--muted);
+  }
 
   /* ── INLINE EDIT ── */
   .event-item.editing { flex-wrap: wrap; gap: 6px; padding: 10px 0; }
@@ -288,7 +323,7 @@
     border-radius: 5px;
     color: var(--text);
     font-family: 'IBM Plex Mono', monospace;
-    font-size: 0.72rem;
+    font-size: 0.94rem;
     padding: 5px 8px;
     outline: none;
   }
@@ -297,13 +332,13 @@
   .edit-save {
     background: var(--accent); color: #fff;
     border: none; border-radius: 5px;
-    font-size: 0.72rem; padding: 5px 10px;
+    font-size: 0.94rem; padding: 5px 10px;
     cursor: pointer; font-family: 'IBM Plex Sans', sans-serif;
   }
   .edit-cancel {
     background: none; border: 1px solid var(--border2);
     border-radius: 5px; color: var(--muted);
-    font-size: 0.72rem; padding: 5px 8px; cursor: pointer;
+    font-size: 0.94rem; padding: 5px 8px; cursor: pointer;
   }
 </style>
 </head>
@@ -547,9 +582,9 @@ function draw(){
   });
 
   // Annotation radii
-  const TICK_S  = SIZE*0.013;
-  const TICK_WE = SIZE*0.020;
-  const TICK_5  = SIZE*0.017;
+  const TICK_S  = SIZE*0.017;
+  const TICK_WE = SIZE*0.026;
+  const TICK_5  = SIZE*0.022;
   const TICK_M  = SIZE*0.025;
   const NUM_R   = OUTER+SIZE*0.048;
   const MON_R   = OUTER+SIZE*0.076;
@@ -582,7 +617,7 @@ function draw(){
       ctx.save();
       ctx.translate(cx+NUM_R*Math.cos(angle), cy+NUM_R*Math.sin(angle));
       ctx.rotate(angle+Math.PI/2);
-      ctx.font=`${is1?'600':'400'} ${is1?SIZE*0.017:SIZE*0.015}px 'IBM Plex Mono'`;
+      ctx.font=`${is1?'600':'400'} ${is1?SIZE*0.022:SIZE*0.0195}px 'IBM Plex Mono'`;
       ctx.fillStyle=past ? (dark?'#383c52':'#b8bcd0') : (is1?textHi:textMid);
       ctx.textAlign='center'; ctx.textBaseline='middle';
       ctx.fillText(String(dom),0,0);
@@ -607,7 +642,7 @@ function draw(){
     ctx.save();
     ctx.translate(cx+MON_R*Math.cos(mA), cy+MON_R*Math.sin(mA));
     ctx.rotate(mA+Math.PI/2);
-    ctx.font=`600 ${SIZE*0.020}px 'IBM Plex Sans'`;
+    ctx.font=`600 ${SIZE*0.026}px 'IBM Plex Sans'`;
     ctx.fillStyle=past?monPast:monCol;
     ctx.textAlign='center'; ctx.textBaseline='middle';
     ctx.fillText(MONTHS_SH[m],0,0);
@@ -711,17 +746,28 @@ function draw(){
   const legendSpacing = COMP_R * 0.19;
   const totalH = legendSpacing * (COLORS.length-1);
   const legendStartY = cy - totalH/2;
-  const dotR = SIZE*0.013;
+  const dotR = SIZE*0.017;
 
   COLORS.forEach((c,i)=>{
     const ly = legendStartY + i*legendSpacing;
     ctx.beginPath(); ctx.arc(cx-SIZE*0.04, ly, dotR, 0, Math.PI*2);
     ctx.fillStyle = c.hex; ctx.fill();
     ctx.strokeStyle=dark?'#0c0d0f':'#f4f5f7'; ctx.lineWidth=1; ctx.stroke();
-    ctx.font=`400 ${SIZE*0.024}px 'IBM Plex Mono'`;
+    ctx.font=`400 ${SIZE*0.031}px 'IBM Plex Mono'`;
     ctx.fillStyle=dark?'rgba(200,205,228,0.70)':'rgba(40,50,90,0.65)';
     ctx.textAlign='left'; ctx.textBaseline='middle';
     ctx.fillText('— '+c.label, cx-SIZE*0.04+dotR+SIZE*0.012, ly);
+    // Edit pencil icon
+    const ex2 = cx-SIZE*0.04+dotR+SIZE*0.012 + ctx.measureText('— '+c.label).width + SIZE*0.018;
+    ctx.font=`400 ${SIZE*0.025}px 'IBM Plex Mono'`;
+    ctx.fillStyle=dark?'rgba(200,205,228,0.28)':'rgba(40,50,90,0.28)';
+    ctx.fillText('✎', ex2, ly);
+  });
+
+  // Store legend positions for click detection
+  window._legendHitAreas = COLORS.map((c,i)=>{
+    const ly = legendStartY + i*legendSpacing;
+    return { id: c.id, x1: cx-SIZE*0.15, x2: cx+SIZE*0.25, y1: ly-SIZE*0.025, y2: ly+SIZE*0.025 };
   });
 }
 
@@ -960,6 +1006,62 @@ async function saveEdit(id){
 
 // ── INIT ──────────────────────────────────────────────────────────────────────
 updateHeader(); draw(); renderEvents();
+
+// Legend label edit on canvas click
+document.getElementById('ring').addEventListener('click', function(e){
+  const rect = this.getBoundingClientRect();
+  const scaleX = this.width / rect.width;
+  const scaleY = this.height / rect.height;
+  const x = (e.clientX - rect.left) * scaleX;
+  const y = (e.clientY - rect.top) * scaleY;
+  if(!window._legendHitAreas) return;
+  const hit = window._legendHitAreas.find(a => x>=a.x1&&x<=a.x2&&y>=a.y1&&y<=a.y2);
+  if(!hit) return;
+  openLegendEdit(hit.id, e.clientX, e.clientY);
+});
+
+function openLegendEdit(colorId, cx, cy){
+  document.querySelectorAll('.legend-popup').forEach(x=>x.remove());
+  const c = COLORS.find(x=>x.id===colorId);
+  if(!c) return;
+  const popup = document.createElement('div');
+  popup.className = 'legend-popup';
+  popup.innerHTML = `
+    <input id="lp-input" value="${c.label}" maxlength="16">
+    <button onclick="saveLegendLabel('${colorId}')">✓</button>
+    <button class="lp-cancel" onclick="this.closest('.legend-popup').remove()">✕</button>
+  `;
+  // Position near click
+  popup.style.left = Math.min(cx, window.innerWidth-220)+'px';
+  popup.style.top = (cy-20)+'px';
+  document.body.appendChild(popup);
+  const inp = document.getElementById('lp-input');
+  inp.focus(); inp.select();
+  inp.addEventListener('keydown', e=>{ if(e.key==='Enter') saveLegendLabel(colorId); if(e.key==='Escape') popup.remove(); });
+}
+
+function saveLegendLabel(colorId){
+  const inp = document.getElementById('lp-input');
+  if(!inp) return;
+  const val = inp.value.trim();
+  if(!val) return;
+  const c = COLORS.find(x=>x.id===colorId);
+  if(c) c.label = val;
+  document.querySelectorAll('.legend-popup').forEach(x=>x.remove());
+  draw(); renderEvents();
+  // Save to localStorage for persistence
+  const labels = {};
+  COLORS.forEach(x=>labels[x.id]=x.label);
+  localStorage.setItem('yrv_labels', JSON.stringify(labels));
+}
+
+// Load saved labels
+(function loadLabels(){
+  try{
+    const saved = JSON.parse(localStorage.getItem('yrv_labels')||'{}');
+    COLORS.forEach(c=>{ if(saved[c.id]) c.label=saved[c.id]; });
+  }catch(e){}
+})();
 window.addEventListener('resize',()=>{ initSize(); draw(); });
 
 // Auth init
