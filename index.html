@@ -762,25 +762,22 @@ function draw(){
     ctx.fillText('— '+c.label, cx-SIZE*0.04+dotR+SIZE*0.012, ly);
   });
 
-  // HTML overlay buttons — positioned relative to canvas element
-  const canvasEl2 = document.getElementById('ring');
-  const cssScale2 = canvasEl2.offsetWidth / canvasEl2.width;
+  // HTML overlay buttons — use SIZE directly (already CSS px, ctx.setTransform handles DPR)
   const overlay = document.getElementById('legend-overlay');
   overlay.innerHTML = '';
 
   COLORS.forEach((c2,i)=>{
     const ly2 = legendStartY + i*legendSpacing;
-    // dot center in canvas px: cx - SIZE*0.04
-    // place button just left of dot
-    const penX = (cx - SIZE*0.04 - dotR - SIZE*0.025) * cssScale2;
-    const penY = ly2 * cssScale2;
+    // dot center in CSS px: cx - SIZE*0.04  (cx = SIZE/2)
+    const penX = cx - SIZE*0.04 - dotR - SIZE*0.025;
+    const penY = ly2;
     const btn = document.createElement('button');
     btn.className = 'leg-btn';
     btn.textContent = '✎';
     btn.style.left = penX + 'px';
     btn.style.top  = penY + 'px';
     btn.style.color = dark ? 'rgba(200,205,228,0.8)' : 'rgba(40,50,90,0.8)';
-    btn.style.fontSize = Math.max(14, SIZE*0.032*cssScale2) + 'px';
+    btn.style.fontSize = Math.max(14, SIZE*0.032) + 'px';
     btn.addEventListener('click', (e)=>{
       e.stopPropagation();
       openLegendEdit(c2.id, e.clientX, e.clientY);
