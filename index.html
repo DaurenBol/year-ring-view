@@ -166,8 +166,10 @@
   }
 
   /* ── RING ── */
-  .ring-wrap { display: flex; align-items: center; justify-content: center; }
+  .ring-wrap { display: flex; align-items: center; justify-content: center; position: relative; }
   canvas#ring { display: block; }
+  #legend-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; }
+  .leg-btn { position: absolute; background: none; border: none; cursor: pointer; pointer-events: all; font-size: 16px; padding: 8px; transform: translate(-50%, -50%); line-height: 1; }
 
   /* ── SECTION LABEL ── */
   .section-label {
@@ -378,6 +380,7 @@
 
 <div class="ring-wrap">
   <canvas id="ring"></canvas>
+  <div id="legend-overlay"></div>
 </div>
 
 <div class="add-section">
@@ -764,28 +767,29 @@ function draw(){
     ctx.fillText('— '+c.label, cx-SIZE*0.04+dotR+SIZE*0.012, ly);
   });
 
-  // Store legend positions for HTML overlay (in canvas px — converted to CSS px at render time)
-  const canvasEl = document.getElementById('ring');
-  const dpr = window.devicePixelRatio || 1;
-  const cssScale = canvasEl.getBoundingClientRect().width / canvasEl.width;
-  const canvasRect = canvasEl.getBoundingClientRect();
-
-  // Remove old overlay buttons
-  document.querySelectorAll('.legend-edit-btn').forEach(x=>x.remove());
+  // HTML overlay buttons — positioned relative to canvas element
+  const canvasEl2 = document.getElementById('ring');
+  const cssScale2 = canvasEl2.offsetWidth / canvasEl2.width;
+  const overlay = document.getElementById('legend-overlay');
+  overlay.innerHTML = '';
 
   COLORS.forEach((c2,i)=>{
     const ly2 = legendStartY + i*legendSpacing;
     const penX = cx - SIZE*0.04 - dotR - SIZE*0.038;
-    // Convert canvas coords to page coords
-    const pageX = canvasRect.left + penX * cssScale;
-    const pageY = canvasRect.top + ly2 * cssScale;
+    const btnLeft = penX * cssScale2;
+    const btnTop  = ly2  * cssScale2;
     const btn = document.createElement('button');
-    btn.className = 'legend-edit-btn';
+    btn.className = 'leg-btn';
     btn.textContent = '✎';
-    btn.dataset.colorId = c2.id;
-    btn.style.cssText = `position:fixed;left:${pageX}px;top:${pageY}px;transform:translate(-50%,-50%);background:none;border:none;cursor:pointer;font-size:${Math.max(14, SIZE*0.034*cssScale)}px;color:${dark?'rgba(200,205,228,0.6)':'rgba(40,50,90,0.6)'};padding:6px;z-index:50;`;
-    btn.addEventListener('click', ()=> openLegendEdit(c2.id, pageX, pageY));
-    document.body.appendChild(btn);
+    btn.style.left = btnLeft + 'px';
+    btn.style.top  = btnTop  + 'px';
+    btn.style.color = dark ? 'rgba(200,205,228,0.7)' : 'rgba(40,50,90,0.7)';
+    btn.style.fontSize = Math.max(14, SIZE*0.034*cssScale2) + 'px';
+    btn.addEventListener('click', (e)=>{
+      e.stopPropagation();
+      openLegendEdit(c2.id, e.clientX, e.clientY);
+    });
+    overlay.appendChild(btn);
   });
 }
 
@@ -1026,17 +1030,7 @@ async function saveEdit(id){
 updateHeader(); draw(); renderEvents();
 
 // Legend label edit on canvas click
-document.getElementById('ring').addEventListener('click', function(e){
-  const rect = this.getBoundingClientRect();
-  const scaleX = this.width / rect.width;
-  const scaleY = this.height / rect.height;
-  const x = (e.clientX - rect.left) * scaleX;
-  const y = (e.clientY - rect.top) * scaleY;
-  if(!window._legendHitAreas) return;
-  const hit = window._legendHitAreas.find(a => x>=a.x1&&x<=a.x2&&y>=a.y1&&y<=a.y2);
-  if(!hit) return;
-  openLegendEdit(hit.id, e.clientX, e.clientY);
-});
+
 
 
 
