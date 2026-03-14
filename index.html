@@ -750,6 +750,11 @@ function draw(){
 
   COLORS.forEach((c,i)=>{
     const ly = legendStartY + i*legendSpacing;
+    // Edit pencil — left of dot
+    ctx.font=`400 ${SIZE*0.026}px 'IBM Plex Mono'`;
+    ctx.fillStyle=dark?'rgba(200,205,228,0.30)':'rgba(40,50,90,0.30)';
+    ctx.textAlign='center'; ctx.textBaseline='middle';
+    ctx.fillText('✎', cx-SIZE*0.04-dotR-SIZE*0.030, ly);
     ctx.beginPath(); ctx.arc(cx-SIZE*0.04, ly, dotR, 0, Math.PI*2);
     ctx.fillStyle = c.hex; ctx.fill();
     ctx.strokeStyle=dark?'#0c0d0f':'#f4f5f7'; ctx.lineWidth=1; ctx.stroke();
@@ -757,17 +762,12 @@ function draw(){
     ctx.fillStyle=dark?'rgba(200,205,228,0.70)':'rgba(40,50,90,0.65)';
     ctx.textAlign='left'; ctx.textBaseline='middle';
     ctx.fillText('— '+c.label, cx-SIZE*0.04+dotR+SIZE*0.012, ly);
-    // Edit pencil icon
-    const ex2 = cx-SIZE*0.04+dotR+SIZE*0.012 + ctx.measureText('— '+c.label).width + SIZE*0.018;
-    ctx.font=`400 ${SIZE*0.025}px 'IBM Plex Mono'`;
-    ctx.fillStyle=dark?'rgba(200,205,228,0.28)':'rgba(40,50,90,0.28)';
-    ctx.fillText('✎', ex2, ly);
   });
 
   // Store legend positions for click detection
   window._legendHitAreas = COLORS.map((c,i)=>{
     const ly = legendStartY + i*legendSpacing;
-    return { id: c.id, x1: cx-SIZE*0.15, x2: cx+SIZE*0.25, y1: ly-SIZE*0.025, y2: ly+SIZE*0.025 };
+    return { id: c.id, x1: cx-SIZE*0.12, x2: cx-SIZE*0.01, y1: ly-SIZE*0.030, y2: ly+SIZE*0.030 };
   });
 }
 
