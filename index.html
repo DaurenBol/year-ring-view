@@ -753,11 +753,6 @@ function draw(){
 
   COLORS.forEach((c,i)=>{
     const ly = legendStartY + i*legendSpacing;
-    // Edit pencil — left of dot
-    ctx.font=`400 ${SIZE*0.034}px 'IBM Plex Mono'`;
-    ctx.fillStyle=dark?'rgba(200,205,228,0.45)':'rgba(40,50,90,0.45)';
-    ctx.textAlign='center'; ctx.textBaseline='middle';
-    ctx.fillText('✎', cx-SIZE*0.04-dotR-SIZE*0.038, ly);
     ctx.beginPath(); ctx.arc(cx-SIZE*0.04, ly, dotR, 0, Math.PI*2);
     ctx.fillStyle = c.hex; ctx.fill();
     ctx.strokeStyle=dark?'#0c0d0f':'#f4f5f7'; ctx.lineWidth=1; ctx.stroke();
@@ -775,16 +770,17 @@ function draw(){
 
   COLORS.forEach((c2,i)=>{
     const ly2 = legendStartY + i*legendSpacing;
-    const penX = cx - SIZE*0.04 - dotR - SIZE*0.038;
-    const btnLeft = penX * cssScale2;
-    const btnTop  = ly2  * cssScale2;
+    // dot center in canvas px: cx - SIZE*0.04
+    // place button just left of dot
+    const penX = (cx - SIZE*0.04 - dotR - SIZE*0.025) * cssScale2;
+    const penY = ly2 * cssScale2;
     const btn = document.createElement('button');
     btn.className = 'leg-btn';
     btn.textContent = '✎';
-    btn.style.left = btnLeft + 'px';
-    btn.style.top  = btnTop  + 'px';
-    btn.style.color = dark ? 'rgba(200,205,228,0.7)' : 'rgba(40,50,90,0.7)';
-    btn.style.fontSize = Math.max(14, SIZE*0.034*cssScale2) + 'px';
+    btn.style.left = penX + 'px';
+    btn.style.top  = penY + 'px';
+    btn.style.color = dark ? 'rgba(200,205,228,0.8)' : 'rgba(40,50,90,0.8)';
+    btn.style.fontSize = Math.max(14, SIZE*0.032*cssScale2) + 'px';
     btn.addEventListener('click', (e)=>{
       e.stopPropagation();
       openLegendEdit(c2.id, e.clientX, e.clientY);
